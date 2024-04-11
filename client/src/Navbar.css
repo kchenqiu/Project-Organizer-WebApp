@@ -1,0 +1,76 @@
+.Navbar {
+    background-color: #6D7B93;    
+}
+
+.Navbar li {
+    display: inline-flex;
+    font-size: 30px;
+    padding: 7px;
+    padding-left: 12px;
+}
+
+.Navbar ul {
+    list-style-type: none;
+    padding: 5px;
+}
+
+.DropDown button{
+    margin-top: -8px;
+    margin-right: -20px;
+    font-size: 28px;
+    color: black;
+    width: 150px;
+    background-color: #6D7B93;
+    border: none;
+}
+
+.DropDown :hover:not(.active){
+    background-color: #6D7B93;
+    color: black;
+    text-decoration: none;
+}
+
+.DropDown :active{
+    background-color: #6D7B93;
+    color: black;
+    text-decoration: none;
+}
+
+.DropDown :not(:hover){
+    background-color: #6D7B93;
+    color: black;
+    text-decoration: none; 
+}
+
+.Signout{
+    float:right;
+}
+
+.SignoutButton{
+    align-content: center;
+    background: #ECDFD4;
+    float: right;
+    border: none;
+    border-radius: 4px;
+    font-size: 20px;
+    padding: 6px 10px;
+    width: 100px;
+    size: 100px;
+}
+
+.link{
+    color: black;
+}
+
+a:link{
+    text-decoration: none;
+}
+
+a:visited { 
+    text-decoration: none; 
+} 
+  
+a:hover:not(.active) { 
+    text-decoration: none; 
+} 
+  

@@ -1,0 +1,11 @@
+.Home{
+    background-color: #2A272D;
+    min-height: 100vh;
+    width: 100%;
+    color: white;
+}
+
+.Home-Header{
+    text-align: center;
+    font-size: 50px;
+}
