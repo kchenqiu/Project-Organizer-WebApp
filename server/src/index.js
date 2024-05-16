@@ -6,6 +6,7 @@ const Project = require('./ProjectSchema');
 const Team = require('./TeamSchema');
 const TeamRoster = require('./TeamRosterSchema');
 const UserStory = require('./UserStorySchema');
+const AssignUserStory = require ('./AssignUserStorySchema');
 
 const app = express();
 app.use(express.json());
@@ -59,7 +60,7 @@ app.get('/getUsers', async (req, res) => {
 })
 
 app.get('/getUserByID', async (req, res) => {
-    const _id = req.query.loggedInUser
+    const _id = req.query.user
     try{
         const user = await User.findOne({ _id : _id });
         res.send(user);
@@ -93,6 +94,18 @@ app.post('/createUserStory', async(req, res) => {
     }
 })
 
+app.post('/assignUserStory', async(req, res) => {
+    try{
+        const assignUserStory = new AssignUserStory(req.body);
+        await assignUserStory.save();
+        console.log(`Assigned User Story  ${assignUserStory}`);
+        res.send(assignUserStory);
+    }
+    catch (error){
+        res.status(500).send(error)
+    }
+})
+
 app.get('/getProjects', async (req, res) => {
     try {
         const projects = await Project.find()
@@ -117,6 +130,95 @@ app.get('/getProjects', async (req, res) => {
     }
 })
 
+app.get('/getProject', async (req, res) => {
+    try{
+        const proj = await Project.findOne({_id: req.query.project_id})
+        res.send(proj)
+    }
+    catch (error) {
+        res.status(500).send(error)
+    }
+})
+
+app.get('/getUserStorybyID', async (req, res) => {
+    try{
+        const userstory = await UserStory.findOne({_id: req.query.userstory_id})
+        res.send(userstory)
+    }
+    catch (error) {
+        res.status(500).send(error)
+    }
+})
+
+app.get('/getUserStory', async (req, res) => {
+    try{
+        const UserStories = await UserStory.find()
+        let unassigedUserStory = []
+
+        for(const UserStory of UserStories){
+            const assigned = await AssignUserStory.findOne({ userStory_id: UserStory._id });
+            if(assigned){
+
+            }
+            else{
+                unassigedUserStory.push({
+                    _id: UserStory._id,
+                    UserStory: UserStory.UserStory,
+                    proj_id: UserStory.proj_id,
+                    priority: UserStory.priority
+                })
+            }
+        }
+
+        res.send(unassigedUserStory);
+    }
+    catch (error) {
+        res.status(500).send(error)
+    }
+})
+
+app.get('/getUserStories', async (req, res) => {
+    try{
+        const UserStories = await UserStory.find()
+        let Userstory = []
+
+        for(const UserStory of UserStories){
+            const project = await Project.findOne({_id: UserStory.proj_id})
+            Userstory.push({
+                userstory: UserStory.UserStory,
+                proj_name: project.proj_name,
+                priority: UserStory.priority
+            })
+        }
+        res.send(Userstory)
+    }
+    catch (error) {
+        res.status(500).send(error)
+    }
+})
+
+app.get('/getAssignedUserStories', async(req, res)=> {
+    try{
+        const _id = req.query.loggedInUser;
+        const assignedUserStories = await AssignUserStory.find();
+        let belongsToUser = []
+        for(const assignedUserStory of assignedUserStories){
+
+            if(assignedUserStory.user_id.equals(_id)){
+                const userstory = await UserStory.findOne({_id: assignedUserStory.userStory_id})
+                belongsToUser.push({
+                    UserStory: userstory
+                })
+            }
+        }
+        res.send(belongsToUser)
+    }
+    catch (error) {
+        res.status(500).send(error)
+    }
+})
+
+
 app.post('/createTeam', async (req, res) =>{
     try{
         const team = new Team(req.body);
@@ -131,7 +233,6 @@ app.post('/createTeam', async (req, res) =>{
 
 app.post('/createTeamRoster', async (req, res) =>{
     try{
-        console.log(req.body)
         const teamroster = new TeamRoster(req.body);
         await teamroster.save();
         console.log(`Team Roster Created! ${teamroster}`)
@@ -142,11 +243,33 @@ app.post('/createTeamRoster', async (req, res) =>{
     }
 })
 
+app.get('/getTeam', async (req, res) => {
+    try{
+        const _id = req.query.team_id
+        const team = await Team.findOne({_id: _id})
+        res.send(team)
+    }
+    catch (error){
+        console.log("error")
+        res.status(500).send(error)
+    }
+})
+
+app.get('/getTeams', async (req, res) => {
+    try{
+        const teams = await Team.find()
+        res.send(teams)
+    }
+    catch (error){
+        res.status(500).send(error)
+    }
+})
+
 app.get('/getTeamRoster', async (req, res) => {
     try{
         const team_id = req.query.team_id
-        const teamRoster = await TeamRoster.find({team_id: team_id})
-        res.send(teamRoster);
+        const teamRoster = await TeamRoster.findOne({team_id: team_id})
+        res.send(teamRoster.member_id);
     }
     catch (error){
         res.status(500).send(error)
@@ -154,10 +277,66 @@ app.get('/getTeamRoster', async (req, res) => {
 })
 
 
-app.get('/getTeams', async (req, res) => {
+app.get('/getUserTeamsAndProjects', async (req, res) => {
     try {
-        const teamList = await Team.find({}, {team_name: 1});
-        res.send(teamList)
+        const _id = req.query.loggedInUser
+        const teamRosters = await TeamRoster.find();
+        let inTeams = [];
+        for(const teamRoster of teamRosters){
+            if(teamRoster.member_id.includes(_id)){
+                const team = await Team.findOne({ _id: teamRoster.team_id })
+                const proj = await Project.find({ team_id: team._id })
+                inTeams.push({
+                    team: team,
+                    project: proj
+                })
+            }
+        }
+        res.send(inTeams)
+    }
+    catch (error) {
+        res.status(500).send(error)
+    }
+})
+
+app.get('/getTeamMembers', async (req, res) => {
+    try{
+        const team_id = req.query.team_id
+        const roster = await TeamRoster.findOne({team_id: team_id})
+        let teamMembers = [];
+        for(const member of roster.member_id){
+            const user = await User.findOne({_id: member})
+            teamMembers.push({
+                name: user.f_name + " " + user.l_name 
+            })
+        }
+        res.send(teamMembers)
+    }
+    catch (error) {
+        res.status(500).send(error)
+    }
+})
+
+app.get('/getFullTeams', async (req, res) => {
+    try{
+        let TeamList = [];
+        const teams = await Team.find();
+        for(const team of teams){
+            const teamRoster = await TeamRoster.findOne({team_id: team._id})
+
+            let memberList = [];
+            for(const member of teamRoster.member_id){
+                const user = await User.findOne({_id: member})
+                memberList.push({
+                    name: user.f_name + " " + user.l_name
+                })
+            }
+            TeamList.push({
+                team_name: team.team_name,
+                members: memberList,
+            })
+        }
+        res.send(TeamList);
     }
     catch (error) {
         res.status(500).send(error)
