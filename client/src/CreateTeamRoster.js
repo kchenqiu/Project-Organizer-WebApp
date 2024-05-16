@@ -59,13 +59,13 @@ function CreateTeamRoster(){
                     <br/>
                     <Select
                         isMulti
-                        className="select"
+                        className="multi-select"
                         value={selectedUsers}
                         onChange={setSelectedUsers}
                         options={userOptions}
                     />             
                     <br/>   
-                    <button className="submit" onClick={(e) => handleCreateTeamRoster(e, selectedTeam, selectedUsers)}>
+                    <button className="createRosterSubmit" onClick={(e) => handleCreateTeamRoster(e, selectedTeam, selectedUsers)}>
                         Create Team Roster
                     </button>
                 </form>

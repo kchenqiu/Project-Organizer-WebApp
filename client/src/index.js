@@ -11,6 +11,11 @@ import ViewProject from './ViewProject';
 import ViewTeam from './ViewTeam';
 import CreateTeamRoster from './CreateTeamRoster';
 import CreateUserStory from './CreateUserStory';
+import AssignUserStory from './AssignUserStory';
+import ViewUserStory from './ViewUserStory';
+import Team from './Team';
+import Project from './Project';
+import UserStory from './UserStory';
 import reportWebVitals from './reportWebVitals';
 import { createBrowserRouter, RouterProvider , Route } from 'react-router-dom';
 
@@ -55,6 +60,26 @@ const router = createBrowserRouter ([
   {
     path: "/CreateUserStory",
     element: <CreateUserStory/>
+  },
+  {
+    path: "/AssignUserStory",
+    element: <AssignUserStory/>
+  },
+  {
+    path: "/ViewUserStory",
+    element: <ViewUserStory/>
+  },
+  {
+    path: '/team/:team_id', 
+    element: <Team/>
+  },
+  {
+    path: '/project/:project_id', 
+    element: <Project/>
+  },
+  {
+    path: '/userstory/:userstory_id', 
+    element: <UserStory/>
   },
 ])
 

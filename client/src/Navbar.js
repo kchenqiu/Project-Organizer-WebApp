@@ -23,9 +23,13 @@ function Navbar(){
                     <DropdownButton className="DropDown" id = "Project-DropDown" title = "Project">
                         <Dropdown.Item className="link" href="/CreateProject"> Create Project </Dropdown.Item> 
                         <br/>
-                        <Dropdown.Item className="link" href="/CreateUserStory"> Create User Story </Dropdown.Item> 
+                        <Dropdown.Item className="link" href="/CreateUserStory"> Create User Story </Dropdown.Item>                         
                         <br/>
-                        <Dropdown.Item className="link" href="/ViewProject"> View Projects </Dropdown.Item>                  
+                        <Dropdown.Item className="link" href="/AssignUserStory"> Assign User Story </Dropdown.Item>     
+                        <br/>
+                        <Dropdown.Item className="link" href="/ViewProject"> View Projects </Dropdown.Item>        
+                        <br/>
+                        <Dropdown.Item className="link" href="/ViewUserStory"> View User Story </Dropdown.Item>   
                     </DropdownButton>
                 </li>
                 <li>

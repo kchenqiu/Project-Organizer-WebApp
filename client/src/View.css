@@ -12,7 +12,7 @@
 }
 
 .CreateTeam-form{
-    margin-left: 42%;
+    margin-left: 40.5%;
     text-align: left;
     font-size: 20px;
 }
@@ -54,7 +54,7 @@ label{
 .select{
     text-align: center;
     color: black;
-    width: 308px;
+    width: 360px;
     height: 50px;
     padding: 0%;
     border-radius: 4px;
@@ -86,7 +86,19 @@ textarea[type = text]{
     word-break: break-word;
 }
 
+.Nested-Display{
+    font-size: 25px;
+    align-content: left;
+    text-align: left;
+    line-height: 30px;
+    white-space: pre-line;
+    list-style: circle;
+    word-wrap: break-word;
+    word-break: break-word;
+}
+
 .submit{
+    display:inline-block;
     background: #ECDFD4;
     margin-left: 29px;
     border: none;
@@ -97,3 +109,33 @@ textarea[type = text]{
     size: 100px;
 }
 
+.createRosterSubmit{
+    position: absolute;
+    background: #ECDFD4;
+    margin-left: 57px;
+    border: none;
+    border-radius: 4px;
+    font-size: 20px;
+    padding: 10px 10px;
+    width: 250px;
+    size: 100px;
+}
+
+.multi-select{
+    text-align: center;
+    color: black;
+    width: 360px;
+    height: 50px;
+    padding: 0%;
+    border-radius: 4px;
+}
+
+.multi-select__valueContainer{
+    height: 20px;
+    min-height: 20px;
+}
+
+.Home-Text{
+    text-align: left;
+    font-size: 40px;
+}

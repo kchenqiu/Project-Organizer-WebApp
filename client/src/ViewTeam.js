@@ -5,17 +5,24 @@ import Navbar from "./Navbar";
 
 function ViewTeam(){
     const [teams, setTeams] = useState([]);
-    const displayTeams = teams.map((teams) => <li>{teams.team_name}</li>)
 
+    const displayTeams = teams.map((team) =>  <li className="View-Display"> 
+            Team: {team.team_name} 
+        {team.members.map((member) => <li className="Nested-Display">  
+        {member.name} {"\n "} </li> )} 
+        {"\n"}
+        </li> )
+    
+    
     useEffect(() => {
-        axios.get('http://localhost:9000/getTeams')
-        .then((res) => {
-          setTeams(res.data)
-        })
+        axios.get('http://localhost:9000/getFullTeams')        
         .catch((error) => {
-          console.log(error);
+            console.log(error);
         })
-        }, []);
+        .then((res) => {
+            setTeams(res.data);
+        })
+    }, []);
 
     return(
         <div className="View">

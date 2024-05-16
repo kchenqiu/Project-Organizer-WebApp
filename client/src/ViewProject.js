@@ -18,7 +18,7 @@ function ViewProject(){
         .then((res) => {
           setProjects(res.data)
         })
-        .catch(function (error) {
+        .catch((error) => {
           console.log(error);
         })
         }, []);
